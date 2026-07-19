@@ -14,6 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
+      feedback: {
+        Row: {
+          comment: string | null
+          created_at: string
+          feedback_type: string
+          id: string
+          is_anonymous: boolean
+          module_id: string | null
+          rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          feedback_type: string
+          id?: string
+          is_anonymous?: boolean
+          module_id?: string | null
+          rating: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          feedback_type?: string
+          id?: string
+          is_anonymous?: boolean
+          module_id?: string | null
+          rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modules: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          module_name: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          module_name: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          module_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
