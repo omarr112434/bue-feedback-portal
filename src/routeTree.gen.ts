@@ -9,19 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as StudentRouteImport } from './routes/student'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudentIndexRouteImport } from './routes/student.index'
 import { Route as StudentFeedbackRouteImport } from './routes/student.feedback'
 import { Route as StudentFeedbackSuccessRouteImport } from './routes/student.feedback.success'
 
-const StudentRoute = StudentRouteImport.update({
-  id: '/student',
-  path: '/student',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -42,10 +37,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudentIndexRoute = StudentIndexRouteImport.update({
+  id: '/student/',
+  path: '/student/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentFeedbackRoute = StudentFeedbackRouteImport.update({
-  id: '/feedback',
-  path: '/feedback',
-  getParentRoute: () => StudentRoute,
+  id: '/student/feedback',
+  path: '/student/feedback',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const StudentFeedbackSuccessRoute = StudentFeedbackSuccessRouteImport.update({
   id: '/success',
@@ -58,8 +58,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/student': typeof StudentRouteWithChildren
   '/student/feedback': typeof StudentFeedbackRouteWithChildren
+  '/student/': typeof StudentIndexRoute
   '/student/feedback/success': typeof StudentFeedbackSuccessRoute
 }
 export interface FileRoutesByTo {
@@ -67,8 +67,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/student': typeof StudentRouteWithChildren
   '/student/feedback': typeof StudentFeedbackRouteWithChildren
+  '/student': typeof StudentIndexRoute
   '/student/feedback/success': typeof StudentFeedbackSuccessRoute
 }
 export interface FileRoutesById {
@@ -77,8 +77,8 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/student': typeof StudentRouteWithChildren
   '/student/feedback': typeof StudentFeedbackRouteWithChildren
+  '/student/': typeof StudentIndexRoute
   '/student/feedback/success': typeof StudentFeedbackSuccessRoute
 }
 export interface FileRouteTypes {
@@ -88,8 +88,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/register'
-    | '/student'
     | '/student/feedback'
+    | '/student/'
     | '/student/feedback/success'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,8 +97,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/register'
-    | '/student'
     | '/student/feedback'
+    | '/student'
     | '/student/feedback/success'
   id:
     | '__root__'
@@ -106,8 +106,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/register'
-    | '/student'
     | '/student/feedback'
+    | '/student/'
     | '/student/feedback/success'
   fileRoutesById: FileRoutesById
 }
@@ -116,18 +116,12 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
-  StudentRoute: typeof StudentRouteWithChildren
+  StudentFeedbackRoute: typeof StudentFeedbackRouteWithChildren
+  StudentIndexRoute: typeof StudentIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/student': {
-      id: '/student'
-      path: '/student'
-      fullPath: '/student'
-      preLoaderRoute: typeof StudentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -156,12 +150,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/student/': {
+      id: '/student/'
+      path: '/student'
+      fullPath: '/student/'
+      preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/student/feedback': {
       id: '/student/feedback'
-      path: '/feedback'
+      path: '/student/feedback'
       fullPath: '/student/feedback'
       preLoaderRoute: typeof StudentFeedbackRouteImport
-      parentRoute: typeof StudentRoute
+      parentRoute: typeof rootRouteImport
     }
     '/student/feedback/success': {
       id: '/student/feedback/success'
@@ -185,23 +186,13 @@ const StudentFeedbackRouteWithChildren = StudentFeedbackRoute._addFileChildren(
   StudentFeedbackRouteChildren,
 )
 
-interface StudentRouteChildren {
-  StudentFeedbackRoute: typeof StudentFeedbackRouteWithChildren
-}
-
-const StudentRouteChildren: StudentRouteChildren = {
-  StudentFeedbackRoute: StudentFeedbackRouteWithChildren,
-}
-
-const StudentRouteWithChildren =
-  StudentRoute._addFileChildren(StudentRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
-  StudentRoute: StudentRouteWithChildren,
+  StudentFeedbackRoute: StudentFeedbackRouteWithChildren,
+  StudentIndexRoute: StudentIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
