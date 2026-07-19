@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StudentRouteImport } from './routes/student'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -17,6 +18,11 @@ import { Route as StudentIndexRouteImport } from './routes/student.index'
 import { Route as StudentFeedbackRouteImport } from './routes/student.feedback'
 import { Route as StudentFeedbackSuccessRouteImport } from './routes/student.feedback.success'
 
+const StudentRoute = StudentRouteImport.update({
+  id: '/student',
+  path: '/student',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -38,14 +44,14 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudentIndexRoute = StudentIndexRouteImport.update({
-  id: '/student/',
-  path: '/student/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => StudentRoute,
 } as any)
 const StudentFeedbackRoute = StudentFeedbackRouteImport.update({
-  id: '/student/feedback',
-  path: '/student/feedback',
-  getParentRoute: () => rootRouteImport,
+  id: '/feedback',
+  path: '/feedback',
+  getParentRoute: () => StudentRoute,
 } as any)
 const StudentFeedbackSuccessRoute = StudentFeedbackSuccessRouteImport.update({
   id: '/success',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/student': typeof StudentRouteWithChildren
   '/student/feedback': typeof StudentFeedbackRouteWithChildren
   '/student/': typeof StudentIndexRoute
   '/student/feedback/success': typeof StudentFeedbackSuccessRoute
@@ -77,6 +84,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/student': typeof StudentRouteWithChildren
   '/student/feedback': typeof StudentFeedbackRouteWithChildren
   '/student/': typeof StudentIndexRoute
   '/student/feedback/success': typeof StudentFeedbackSuccessRoute
@@ -88,6 +96,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/register'
+    | '/student'
     | '/student/feedback'
     | '/student/'
     | '/student/feedback/success'
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/register'
+    | '/student'
     | '/student/feedback'
     | '/student/'
     | '/student/feedback/success'
@@ -116,12 +126,18 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
-  StudentFeedbackRoute: typeof StudentFeedbackRouteWithChildren
-  StudentIndexRoute: typeof StudentIndexRoute
+  StudentRoute: typeof StudentRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/student': {
+      id: '/student'
+      path: '/student'
+      fullPath: '/student'
+      preLoaderRoute: typeof StudentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -152,17 +168,17 @@ declare module '@tanstack/react-router' {
     }
     '/student/': {
       id: '/student/'
-      path: '/student'
+      path: '/'
       fullPath: '/student/'
       preLoaderRoute: typeof StudentIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof StudentRoute
     }
     '/student/feedback': {
       id: '/student/feedback'
-      path: '/student/feedback'
+      path: '/feedback'
       fullPath: '/student/feedback'
       preLoaderRoute: typeof StudentFeedbackRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof StudentRoute
     }
     '/student/feedback/success': {
       id: '/student/feedback/success'
@@ -186,14 +202,36 @@ const StudentFeedbackRouteWithChildren = StudentFeedbackRoute._addFileChildren(
   StudentFeedbackRouteChildren,
 )
 
+interface StudentRouteChildren {
+  StudentFeedbackRoute: typeof StudentFeedbackRouteWithChildren
+  StudentIndexRoute: typeof StudentIndexRoute
+}
+
+const StudentRouteChildren: StudentRouteChildren = {
+  StudentFeedbackRoute: StudentFeedbackRouteWithChildren,
+  StudentIndexRoute: StudentIndexRoute,
+}
+
+const StudentRouteWithChildren =
+  StudentRoute._addFileChildren(StudentRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
-  StudentFeedbackRoute: StudentFeedbackRouteWithChildren,
-  StudentIndexRoute: StudentIndexRoute,
+  StudentRoute: StudentRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
