@@ -91,12 +91,9 @@ function StudentDashboard() {
           </div>
           <nav className="flex-1 px-3 space-y-1">
             <NavItem icon={<LayoutDashboard size={18} />} label="Dashboard" active />
-            <button
-              onClick={() => navigate({ to: "/student/feedback" as never })}
-              className="w-full"
-            >
+            <Link to="/student/feedback" className="block w-full">
               <NavItem icon={<PencilLine size={18} />} label="Submit Feedback" />
-            </button>
+            </Link>
             <a href="#my-feedback">
               <NavItem icon={<ClipboardList size={18} />} label="My Feedback" />
             </a>
@@ -129,7 +126,7 @@ function StudentDashboard() {
                 <Bell size={20} className="text-neutral-600" />
               </button>
               <Link
-                to={"/student/feedback" as never}
+                to="/student/feedback"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium text-sm shrink-0"
                 style={{ backgroundColor: "#00BCD4" }}
               >
