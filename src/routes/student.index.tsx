@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import bueLogo from "@/assets/bue-logo.png.asset.json";
 import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Plus, Bell, Star } from "lucide-react";
 
-export const Route = createFileRoute("/student")({
+export const Route = createFileRoute("/student/")({
   head: () => ({ meta: [{ title: "Student Dashboard | BUE Feedback Portal" }] }),
   component: StudentDashboard,
 });
