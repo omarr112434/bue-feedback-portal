@@ -95,7 +95,7 @@ function SubmitFeedback() {
       setSubmitError(error.message || "Failed to submit feedback");
       return;
     }
-    navigate({ to: "/student/feedback/success" as never });
+    navigate({ to: "/student/feedback-success" });
   }
 
   const displayName = user?.email?.split("@")[0] ?? "Student";
