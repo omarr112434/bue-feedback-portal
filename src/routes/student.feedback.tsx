@@ -1,7 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import bueLogo from "@/assets/bue-logo.png.asset.json";
 import {
   LayoutDashboard,
   PencilLine,
@@ -9,7 +8,10 @@ import {
   LogOut,
   Bell,
   Star,
+  Trophy,
 } from "lucide-react";
+
+const BUE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/BUE_Logo.svg/512px-BUE_Logo.svg.png";
 
 export const Route = createFileRoute("/student/feedback")({
   head: () => ({
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/student/feedback")({
 });
 
 type ModuleRow = { id: string; module_name: string; category: string };
+type InstructorInfo = { name: string; title: string } | null;
 
 function SubmitFeedback() {
   const navigate = useNavigate();
@@ -31,6 +34,9 @@ function SubmitFeedback() {
   const [feedbackType, setFeedbackType] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [instructorRating, setInstructorRating] = useState(0);
+  const [hoverInstructorRating, setHoverInstructorRating] = useState(0);
+  const [instructor, setInstructor] = useState<InstructorInfo>(null);
   const [comment, setComment] = useState("");
   const [anonymous, setAnonymous] = useState(false);
 
@@ -63,6 +69,19 @@ function SubmitFeedback() {
     })();
   }, [navigate]);
 
+  // Fetch instructor when module changes
+  useEffect(() => {
+    if (!moduleId) { setInstructor(null); return; }
+    (async () => {
+      const { data } = await supabase
+        .from("instructors")
+        .select("name, title")
+        .eq("module_id", moduleId)
+        .maybeSingle();
+      setInstructor(data as InstructorInfo);
+    })();
+  }, [moduleId]);
+
   async function signOut() {
     await supabase.auth.signOut();
     navigate({ to: "/login" });
@@ -87,6 +106,7 @@ function SubmitFeedback() {
       module_id: moduleId,
       feedback_type: feedbackType,
       rating,
+      instructor_rating: instructorRating || null,
       comment: comment.trim(),
       is_anonymous: anonymous,
     });
@@ -106,7 +126,7 @@ function SubmitFeedback() {
         {/* Sidebar */}
         <aside className="lg:w-64 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <img src={bueLogo.url} alt="BUE" className="h-8 w-auto" />
+            <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto" />
             <span className="font-bold text-neutral-900 text-sm">
               BUE Feedback Portal
             </span>
@@ -124,6 +144,12 @@ function SubmitFeedback() {
               <NavItem
                 icon={<ClipboardList size={18} />}
                 label="My Feedback"
+              />
+            </Link>
+            <Link to="/student/instructor-rankings" className="block">
+              <NavItem
+                icon={<Trophy size={18} />}
+                label="Instructor Rankings"
               />
             </Link>
             <button onClick={signOut} className="w-full text-left">
@@ -251,6 +277,43 @@ function SubmitFeedback() {
                 <p className="mt-1 text-xs text-red-600">{errors.rating}</p>
               )}
             </div>
+
+            {/* Instructor Rating */}
+            {instructor && (
+              <div>
+                <label className="block text-sm font-semibold text-neutral-900 mb-2">
+                  Rate Instructor: {instructor.title} {instructor.name}
+                </label>
+                <div
+                  className="flex items-center gap-1"
+                  onMouseLeave={() => setHoverInstructorRating(0)}
+                >
+                  {[1, 2, 3, 4, 5].map((n) => {
+                    const active = (hoverInstructorRating || instructorRating) >= n;
+                    return (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => setInstructorRating(n)}
+                        onMouseEnter={() => setHoverInstructorRating(n)}
+                        className="p-1"
+                        aria-label={`${n} instructor star${n > 1 ? "s" : ""}`}
+                      >
+                        <Star
+                          size={28}
+                          className={
+                            active
+                              ? "fill-purple-400 text-purple-400"
+                              : "text-neutral-300"
+                          }
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-1 text-xs text-neutral-500">Optional — rate the instructor separately</p>
+              </div>
+            )}
 
             {/* Comment */}
             <div>

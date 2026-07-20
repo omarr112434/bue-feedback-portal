@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import bueLogo from "@/assets/bue-logo.png.asset.json";
+
+const BUE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/BUE_Logo.svg/512px-BUE_Logo.svg.png";
 
 export function AuthCard({
   subtitle,
@@ -14,7 +15,7 @@ export function AuthCard({
     <div className="min-h-screen w-full bg-white flex flex-col items-center px-4 py-10 sm:py-16">
       <div className="w-full max-w-md flex flex-col items-center">
         <img
-          src={bueLogo.url}
+          src={BUE_LOGO_URL}
           alt="The British University in Egypt"
           className="h-20 sm:h-24 w-auto object-contain"
         />

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import bueLogo from "@/assets/bue-logo.png.asset.json";
+
+const BUE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/BUE_Logo.svg/512px-BUE_Logo.svg.png";
 
 export const Route = createFileRoute("/student/feedback-success")({
   head: () => ({
@@ -46,7 +47,7 @@ function FeedbackSuccess() {
         }
       `}</style>
       <div className="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 sm:p-10 flex flex-col items-center text-center">
-        <img src={bueLogo.url} alt="The British University in Egypt" className="h-12 w-auto mb-8" />
+        <img src={BUE_LOGO_URL} alt="The British University in Egypt" className="h-12 w-auto mb-8" />
 
         <div className="relative w-24 h-24 mb-6">
           <svg className="w-full h-full" viewBox="0 0 52 52">

@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import bueLogo from "@/assets/bue-logo.png.asset.json";
-import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Plus, Bell, Star } from "lucide-react";
+import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Plus, Bell, Star, Trophy } from "lucide-react";
+
+const BUE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/BUE_Logo.svg/512px-BUE_Logo.svg.png";
 
 export const Route = createFileRoute("/student/")({
   head: () => ({ meta: [{ title: "Student Dashboard | BUE Feedback Portal" }] }),
@@ -19,11 +20,28 @@ type FeedbackRow = {
   modules?: { module_name: string } | null;
 };
 
+type InstructorRow = {
+  id: string;
+  name: string;
+  title: string;
+  module_id: string | null;
+  modules?: { module_name: string } | null;
+};
+
+type ModuleLeaderboardItem = {
+  module_id: string;
+  module_name: string;
+  instructor_name: string;
+  avg_rating: number;
+  total_reviews: number;
+};
+
 function StudentDashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
   const [feedback, setFeedback] = useState<FeedbackRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [leaderboard, setLeaderboard] = useState<ModuleLeaderboardItem[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -48,6 +66,40 @@ function StudentDashboard() {
         .eq("user_id", data.user.id)
         .order("created_at", { ascending: false });
       setFeedback((fb as FeedbackRow[]) ?? []);
+
+      // Fetch leaderboard data
+      const { data: allFb } = await supabase
+        .from("feedback")
+        .select("module_id, rating, modules(module_name)");
+      const { data: instructors } = await supabase
+        .from("instructors")
+        .select("name, module_id");
+
+      if (allFb) {
+        const moduleMap: Record<string, { ratings: number[]; module_name: string }> = {};
+        (allFb as any[]).forEach((f) => {
+          if (f.module_id) {
+            if (!moduleMap[f.module_id]) {
+              moduleMap[f.module_id] = { ratings: [], module_name: f.modules?.module_name ?? "Unknown" };
+            }
+            moduleMap[f.module_id].ratings.push(f.rating);
+          }
+        });
+        const instructorMap: Record<string, string> = {};
+        ((instructors as any[]) ?? []).forEach((i) => {
+          if (i.module_id) instructorMap[i.module_id] = i.name;
+        });
+        const board: ModuleLeaderboardItem[] = Object.entries(moduleMap)
+          .map(([mid, data]) => ({
+            module_id: mid,
+            module_name: data.module_name,
+            instructor_name: instructorMap[mid] ?? "TBA",
+            avg_rating: data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length,
+            total_reviews: data.ratings.length,
+          }))
+          .sort((a, b) => b.avg_rating - a.avg_rating);
+        setLeaderboard(board);
+      }
       setLoading(false);
     })();
   }, [navigate]);
@@ -86,7 +138,7 @@ function StudentDashboard() {
         {/* Sidebar */}
         <aside className="lg:w-64 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <img src={bueLogo.url} alt="BUE" className="h-8 w-auto" />
+            <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto" />
             <span className="font-bold text-neutral-900 text-sm">BUE Feedback Portal</span>
           </div>
           <nav className="flex-1 px-3 space-y-1">
@@ -96,6 +148,9 @@ function StudentDashboard() {
             </Link>
             <Link to="/student/my-feedback">
               <NavItem icon={<ClipboardList size={18} />} label="My Feedback" />
+            </Link>
+            <Link to="/student/instructor-rankings">
+              <NavItem icon={<Trophy size={18} />} label="Instructor Rankings" />
             </Link>
             <button onClick={signOut} className="w-full text-left">
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium">
@@ -212,6 +267,37 @@ function StudentDashboard() {
                   </li>
                 ))}
               </ul>
+            )}
+          </section>
+
+          {/* Module Leaderboard */}
+          <section className="mt-6 border border-neutral-200 rounded-xl p-5">
+            <h2 className="text-lg font-bold text-neutral-900 mb-4">🏆 Top Rated Modules</h2>
+            {leaderboard.length === 0 ? (
+              <p className="text-sm text-neutral-500">No ratings yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {leaderboard.map((item, idx) => (
+                  <Link
+                    key={item.module_id}
+                    to="/student/module/$moduleId"
+                    params={{ moduleId: item.module_id }}
+                    className="flex items-center gap-4 p-3 rounded-lg hover:bg-neutral-50 transition-colors"
+                  >
+                    <div className="text-2xl w-8 text-center shrink-0">
+                      {idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-neutral-900 truncate">{item.module_name}</p>
+                      <p className="text-xs text-neutral-500">{item.instructor_name} · {item.total_reviews} reviews</p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Stars value={Math.round(item.avg_rating)} />
+                      <span className="text-sm font-semibold text-neutral-700">{item.avg_rating.toFixed(1)}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             )}
           </section>
         </main>

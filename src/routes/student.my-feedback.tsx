@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import bueLogo from "@/assets/bue-logo.png.asset.json";
-import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Star } from "lucide-react";
+import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Star, Trophy, ThumbsUp, ThumbsDown } from "lucide-react";
+
+const BUE_LOGO_URL = "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/BUE_Logo.svg/512px-BUE_Logo.svg.png";
 
 export const Route = createFileRoute("/student/my-feedback")({
   head: () => ({ meta: [{ title: "Feedback Feed | BUE Feedback Portal" }] }),
@@ -29,6 +30,7 @@ function MyFeedbackPage() {
   const [items, setItems] = useState<FeedbackRow[]>([]);
   const [profiles, setProfiles] = useState<Record<string, ProfileInfo>>({});
   const [loading, setLoading] = useState(true);
+  const [reactions, setReactions] = useState<Record<string, { helpful: number; not_helpful: number; mine?: string }>>({});
 
   useEffect(() => {
     (async () => {
@@ -76,9 +78,54 @@ function MyFeedbackPage() {
       } else {
         setProfiles({});
       }
+
+      // Fetch reactions
+      const feedbackIds = rows.map((r) => r.id);
+      if (feedbackIds.length) {
+        const { data: rxns } = await supabase
+          .from("reactions")
+          .select("feedback_id, reaction_type, user_id")
+          .in("feedback_id", feedbackIds);
+        const rxnMap: Record<string, { helpful: number; not_helpful: number; mine?: string }> = {};
+        (rxns ?? []).forEach((r: any) => {
+          if (!rxnMap[r.feedback_id]) rxnMap[r.feedback_id] = { helpful: 0, not_helpful: 0 };
+          if (r.reaction_type === "helpful") rxnMap[r.feedback_id].helpful++;
+          else rxnMap[r.feedback_id].not_helpful++;
+          if (user && r.user_id === user.id) rxnMap[r.feedback_id].mine = r.reaction_type;
+        });
+        setReactions(rxnMap);
+      }
       setLoading(false);
     })();
   }, [tab, user]);
+
+  async function toggleReaction(feedbackId: string, type: "helpful" | "not_helpful") {
+    if (!user) return;
+    const current = reactions[feedbackId]?.mine;
+    if (current === type) {
+      // Remove reaction
+      await supabase.from("reactions").delete().eq("feedback_id", feedbackId).eq("user_id", user.id);
+    } else {
+      // Upsert reaction
+      await supabase.from("reactions").upsert(
+        { feedback_id: feedbackId, user_id: user.id, reaction_type: type },
+        { onConflict: "feedback_id,user_id" }
+      );
+    }
+    // Re-fetch reactions
+    const { data: rxns } = await supabase
+      .from("reactions")
+      .select("feedback_id, reaction_type, user_id")
+      .in("feedback_id", items.map((i) => i.id));
+    const rxnMap: Record<string, { helpful: number; not_helpful: number; mine?: string }> = {};
+    (rxns ?? []).forEach((r: any) => {
+      if (!rxnMap[r.feedback_id]) rxnMap[r.feedback_id] = { helpful: 0, not_helpful: 0 };
+      if (r.reaction_type === "helpful") rxnMap[r.feedback_id].helpful++;
+      else rxnMap[r.feedback_id].not_helpful++;
+      if (r.user_id === user.id) rxnMap[r.feedback_id].mine = r.reaction_type;
+    });
+    setReactions(rxnMap);
+  }
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -92,13 +139,14 @@ function MyFeedbackPage() {
       <div className="mx-auto max-w-[1400px] bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row min-h-[calc(100vh-2rem)]">
         <aside className="lg:w-64 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <img src={bueLogo.url} alt="BUE" className="h-8 w-auto" />
+            <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto" />
             <span className="font-bold text-neutral-900 text-sm">BUE Feedback Portal</span>
           </div>
           <nav className="flex-1 px-3 space-y-1">
             <Link to="/student"><NavItem icon={<LayoutDashboard size={18} />} label="Dashboard" /></Link>
             <Link to="/student/feedback"><NavItem icon={<PencilLine size={18} />} label="Submit Feedback" /></Link>
             <Link to="/student/my-feedback"><NavItem icon={<ClipboardList size={18} />} label="My Feedback" active /></Link>
+            <Link to="/student/instructor-rankings"><NavItem icon={<Trophy size={18} />} label="Instructor Rankings" /></Link>
             <button onClick={signOut} className="w-full text-left">
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium">
                 <LogOut size={18} /> Log out
@@ -157,6 +205,35 @@ function MyFeedbackPage() {
                     {f.comment && (
                       <p className="mt-3 text-sm text-neutral-700 whitespace-pre-wrap">{f.comment}</p>
                     )}
+                    {/* Reaction buttons */}
+                    <div className="mt-3 flex items-center gap-4 pt-2 border-t border-neutral-100">
+                      <button
+                        onClick={() => toggleReaction(f.id, "helpful")}
+                        className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-full transition-colors ${
+                          reactions[f.id]?.mine === "helpful"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-neutral-100 text-neutral-600 hover:bg-green-50"
+                        }`}
+                      >
+                        <ThumbsUp size={14} /> Helpful {reactions[f.id]?.helpful ? `(${reactions[f.id].helpful})` : ""}
+                      </button>
+                      <button
+                        onClick={() => toggleReaction(f.id, "not_helpful")}
+                        className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-full transition-colors ${
+                          reactions[f.id]?.mine === "not_helpful"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-neutral-100 text-neutral-600 hover:bg-red-50"
+                        }`}
+                      >
+                        <ThumbsDown size={14} /> Not Helpful {reactions[f.id]?.not_helpful ? `(${reactions[f.id].not_helpful})` : ""}
+                      </button>
+                      {/* Sentiment badge */}
+                      <span className={`ml-auto text-xs font-medium px-2 py-0.5 rounded-full ${
+                        f.rating >= 4 ? "bg-green-100 text-green-700" : f.rating === 3 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"
+                      }`}>
+                        {f.rating >= 4 ? "Positive" : f.rating === 3 ? "Neutral" : "Negative"}
+                      </span>
+                    </div>
                   </article>
                 );
               })}
