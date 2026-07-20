@@ -94,9 +94,9 @@ function StudentDashboard() {
             <Link to="/student/feedback" className="block w-full">
               <NavItem icon={<PencilLine size={18} />} label="Submit Feedback" />
             </Link>
-            <a href="#my-feedback">
+            <Link to="/student/my-feedback">
               <NavItem icon={<ClipboardList size={18} />} label="My Feedback" />
-            </a>
+            </Link>
             <button onClick={signOut} className="w-full text-left">
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium">
                 <LogOut size={18} />
