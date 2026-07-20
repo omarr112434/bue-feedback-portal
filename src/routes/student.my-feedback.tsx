@@ -133,9 +133,10 @@ function MyFeedbackPage() {
           ) : (
             <div className="space-y-4">
               {items.map((f) => {
+                const p = profiles[f.user_id];
                 const author = f.is_anonymous
                   ? "Anonymous Student"
-                  : f.profiles?.full_name || f.profiles?.email?.split("@")[0] || "Student";
+                  : p?.full_name || p?.email?.split("@")[0] || "Student";
                 return (
                   <article key={f.id} className="border border-neutral-200 rounded-xl p-5">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
