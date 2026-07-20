@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import bueLogo from "@/assets/bue-logo.png.asset.json";
 
-export const Route = createFileRoute("/student/feedback/success")({
+export const Route = createFileRoute("/student/feedback-success")({
   head: () => ({
     meta: [{ title: "Feedback Submitted | BUE Feedback Portal" }],
   }),
