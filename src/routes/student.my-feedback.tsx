@@ -18,14 +18,16 @@ type FeedbackRow = {
   created_at: string;
   is_anonymous: boolean;
   modules?: { module_name: string } | null;
-  profiles?: { full_name: string | null; email: string | null } | null;
 };
+
+type ProfileInfo = { full_name: string | null; email: string | null };
 
 function MyFeedbackPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
   const [tab, setTab] = useState<"mine" | "community">("mine");
   const [items, setItems] = useState<FeedbackRow[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, ProfileInfo>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -52,12 +54,28 @@ function MyFeedbackPage() {
       let query = supabase
         .from("feedback")
         .select(
-          "id, user_id, feedback_type, rating, comment, created_at, is_anonymous, modules(module_name), profiles(full_name, email)",
+          "id, user_id, feedback_type, rating, comment, created_at, is_anonymous, modules(module_name)",
         )
         .order("created_at", { ascending: false });
       if (tab === "mine") query = query.eq("user_id", user.id);
       const { data } = await query;
-      setItems((data as FeedbackRow[]) ?? []);
+      const rows = (data as FeedbackRow[]) ?? [];
+      setItems(rows);
+
+      const ids = Array.from(
+        new Set(rows.filter((r) => !r.is_anonymous).map((r) => r.user_id)),
+      );
+      if (ids.length) {
+        const { data: profs } = await supabase
+          .from("profiles").select("id, full_name, email").in("id", ids);
+        const map: Record<string, ProfileInfo> = {};
+        (profs ?? []).forEach((p) => {
+          map[p.id] = { full_name: p.full_name, email: p.email };
+        });
+        setProfiles(map);
+      } else {
+        setProfiles({});
+      }
       setLoading(false);
     })();
   }, [tab, user]);
