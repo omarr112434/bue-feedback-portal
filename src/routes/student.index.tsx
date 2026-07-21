@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Plus, Bell, Star, Trophy } from "lucide-react";
+import { LayoutDashboard, PencilLine, ClipboardList, LogOut, Plus, Bell, Star, Trophy, ShieldCheck } from "lucide-react";
 
 const BUE_LOGO_URL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'%3E%3Ctext x='50%25' y='50%25' font-size='24' font-weight='bold' font-family='sans-serif' text-anchor='middle' dominant-baseline='middle' fill='%2300BCD4'%3EBUE%3C/text%3E%3C/svg%3E";
 
@@ -39,6 +39,7 @@ type ModuleLeaderboardItem = {
 function StudentDashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [feedback, setFeedback] = useState<FeedbackRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [leaderboard, setLeaderboard] = useState<ModuleLeaderboardItem[]>([]);
@@ -54,10 +55,7 @@ function StudentDashboard() {
         .from("user_roles")
         .select("role")
         .eq("user_id", data.user.id);
-      if (roles?.some((r) => r.role === "admin")) {
-        navigate({ to: "/admin" });
-        return;
-      }
+      setIsAdmin(!!roles?.some((r) => r.role === "admin"));
       setUser({ id: data.user.id, email: data.user.email ?? null });
 
       const { data: fb } = await supabase
@@ -152,6 +150,11 @@ function StudentDashboard() {
             <Link to="/student/instructor-rankings">
               <NavItem icon={<Trophy size={18} />} label="Instructor Rankings" />
             </Link>
+            {isAdmin && (
+              <Link to="/admin" className="block">
+                <NavItem icon={<ShieldCheck size={18} />} label="Admin Portal" />
+              </Link>
+            )}
             <button onClick={signOut} className="w-full text-left">
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium">
                 <LogOut size={18} />

@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -12,6 +12,7 @@ import {
   MessageSquare,
   Send,
   X,
+  GraduationCap,
 } from "lucide-react";
 
 const BUE_LOGO_URL =
@@ -202,6 +203,9 @@ function AdminDashboard() {
             <NavItem icon={<LayoutDashboard size={18} />} label="Dashboard" active />
             <NavItem icon={<ClipboardList size={18} />} label="All Feedback" />
             <NavItem icon={<Users size={18} />} label="Instructor Ratings" />
+            <Link to="/student" className="block">
+              <NavItem icon={<GraduationCap size={18} />} label="Student View" />
+            </Link>
             <button onClick={signOut} className="w-full text-left">
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium">
                 <LogOut size={18} />
