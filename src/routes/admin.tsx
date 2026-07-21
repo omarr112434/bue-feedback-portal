@@ -12,7 +12,6 @@ import {
   MessageSquare,
   Send,
   X,
-  X,
   GraduationCap,
 } from "lucide-react";
 
