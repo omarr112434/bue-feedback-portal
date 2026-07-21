@@ -12,6 +12,8 @@ import {
   MessageSquare,
   Send,
   X,
+  X,
+  GraduationCap,
 } from "lucide-react";
 
 const BUE_LOGO_URL =
