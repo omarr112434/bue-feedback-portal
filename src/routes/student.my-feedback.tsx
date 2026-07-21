@@ -82,14 +82,14 @@ function MyFeedbackPage() {
       if (feedbackIds.length) {
         const { data: rxns } = await supabase
           .from("reactions")
-          .select("feedback_id, reaction_type, user_id")
+          .select("feedback_id, reaction, user_id")
           .in("feedback_id", feedbackIds);
         const rxnMap: Record<string, { helpful: number; not_helpful: number; mine?: string }> = {};
         (rxns ?? []).forEach((r: any) => {
           if (!rxnMap[r.feedback_id]) rxnMap[r.feedback_id] = { helpful: 0, not_helpful: 0 };
-          if (r.reaction_type === "helpful") rxnMap[r.feedback_id].helpful++;
+          if (r.reaction === "helpful") rxnMap[r.feedback_id].helpful++;
           else rxnMap[r.feedback_id].not_helpful++;
-          if (user && r.user_id === user.id) rxnMap[r.feedback_id].mine = r.reaction_type;
+          if (user && r.user_id === user.id) rxnMap[r.feedback_id].mine = r.reaction;
         });
         setReactions(rxnMap);
       }
@@ -106,21 +106,21 @@ function MyFeedbackPage() {
     } else {
       // Upsert reaction
       await supabase.from("reactions").upsert(
-        { feedback_id: feedbackId, user_id: user.id, reaction_type: type },
+        { feedback_id: feedbackId, user_id: user.id, reaction: type },
         { onConflict: "feedback_id,user_id" }
       );
     }
     // Re-fetch reactions
     const { data: rxns } = await supabase
       .from("reactions")
-      .select("feedback_id, reaction_type, user_id")
+      .select("feedback_id, reaction, user_id")
       .in("feedback_id", items.map((i) => i.id));
     const rxnMap: Record<string, { helpful: number; not_helpful: number; mine?: string }> = {};
     (rxns ?? []).forEach((r: any) => {
       if (!rxnMap[r.feedback_id]) rxnMap[r.feedback_id] = { helpful: 0, not_helpful: 0 };
-      if (r.reaction_type === "helpful") rxnMap[r.feedback_id].helpful++;
+      if (r.reaction === "helpful") rxnMap[r.feedback_id].helpful++;
       else rxnMap[r.feedback_id].not_helpful++;
-      if (r.user_id === user.id) rxnMap[r.feedback_id].mine = r.reaction_type;
+      if (r.user_id === user.id) rxnMap[r.feedback_id].mine = r.reaction;
     });
     setReactions(rxnMap);
   }

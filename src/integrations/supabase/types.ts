@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      coursework: {
+        Row: {
+          created_at: string
+          id: string
+          module_id: string
+          title: string
+          type: string
+          updated_at: string
+          weight: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          module_id: string
+          title: string
+          type: string
+          updated_at?: string
+          weight?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          module_id?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coursework_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feedback: {
         Row: {
           comment: string | null
@@ -58,10 +96,47 @@ export type Database = {
           },
         ]
       }
+      instructors: {
+        Row: {
+          created_at: string
+          id: string
+          module_id: string | null
+          name: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          module_id?: string | null
+          name: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          module_id?: string | null
+          name?: string
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "instructors_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       modules: {
         Row: {
           category: string
           created_at: string
+          credit_hours: number | null
+          description: string | null
           id: string
           module_name: string
           updated_at: string
@@ -69,6 +144,8 @@ export type Database = {
         Insert: {
           category: string
           created_at?: string
+          credit_hours?: number | null
+          description?: string | null
           id?: string
           module_name: string
           updated_at?: string
@@ -76,6 +153,8 @@ export type Database = {
         Update: {
           category?: string
           created_at?: string
+          credit_hours?: number | null
+          description?: string | null
           id?: string
           module_name?: string
           updated_at?: string
@@ -105,6 +184,41 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reactions: {
+        Row: {
+          created_at: string
+          feedback_id: string
+          id: string
+          reaction: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          feedback_id: string
+          id?: string
+          reaction: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          feedback_id?: string
+          id?: string
+          reaction?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reactions_feedback_id_fkey"
+            columns: ["feedback_id"]
+            isOneToOne: false
+            referencedRelation: "feedback"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

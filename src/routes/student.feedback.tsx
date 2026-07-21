@@ -104,7 +104,6 @@ function SubmitFeedback() {
       module_id: moduleId,
       feedback_type: feedbackType,
       rating,
-      instructor_rating: instructorRating || null,
       comment: comment.trim(),
       is_anonymous: anonymous,
     });
