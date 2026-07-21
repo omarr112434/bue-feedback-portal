@@ -79,10 +79,7 @@ function ModuleDetailsPage() {
         .from("user_roles")
         .select("role")
         .eq("user_id", data.user.id);
-      if (roles?.some((r) => r.role === "admin")) {
-        navigate({ to: "/admin" });
-        return;
-      }
+      setIsAdmin(!!roles?.some((r) => r.role === "admin"));
       setUser({ id: data.user.id, email: data.user.email ?? null });
 
       const { data: modData } = await supabase
