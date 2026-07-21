@@ -61,6 +61,7 @@ function ModuleDetailsPage() {
   const navigate = useNavigate();
   const { moduleId } = Route.useParams();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [module_, setModule] = useState<ModuleRow | null>(null);
   const [instructor, setInstructor] = useState<InstructorRow | null>(null);
   const [coursework, setCoursework] = useState<CourseworkRow[]>([]);

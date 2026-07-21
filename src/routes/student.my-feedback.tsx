@@ -26,6 +26,7 @@ type ProfileInfo = { full_name: string | null; email: string | null };
 function MyFeedbackPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [tab, setTab] = useState<"mine" | "community">("mine");
   const [items, setItems] = useState<FeedbackRow[]>([]);
   const [profiles, setProfiles] = useState<Record<string, ProfileInfo>>({});

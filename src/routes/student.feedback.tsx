@@ -28,6 +28,7 @@ function SubmitFeedback() {
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(
     null,
   );
+  const [isAdmin, setIsAdmin] = useState(false);
   const [modules, setModules] = useState<ModuleRow[]>([]);
 
   const [moduleId, setModuleId] = useState("");

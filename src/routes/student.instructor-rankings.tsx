@@ -37,6 +37,7 @@ type FeedbackAgg = {
 function InstructorRankingsPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [instructors, setInstructors] = useState<InstructorRow[]>([]);
   const [feedbackMap, setFeedbackMap] = useState<Record<string, FeedbackAgg>>({});
   const [loading, setLoading] = useState(true);

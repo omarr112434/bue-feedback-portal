@@ -39,6 +39,7 @@ type ModuleLeaderboardItem = {
 function StudentDashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [feedback, setFeedback] = useState<FeedbackRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [leaderboard, setLeaderboard] = useState<ModuleLeaderboardItem[]>([]);
