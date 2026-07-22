@@ -54,37 +54,42 @@ function RegisterPage() {
 
   return (
     <AuthCard subtitle="Create your account" title="Register">
-      <form onSubmit={onSubmit} className="flex flex-col gap-3">
-        <input
-          type="email"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-neutral-300 rounded px-3 py-3 text-sm outline-none focus:border-[#0f172a] placeholder:text-neutral-400"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-neutral-300 rounded px-3 py-3 text-sm outline-none focus:border-[#0f172a] placeholder:text-neutral-400"
-        />
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-medium text-slate-600 tracking-wide uppercase">Email Address</label>
+          <input
+            type="email"
+            placeholder="you@bue.edu.eg"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input-classic"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-medium text-slate-600 tracking-wide uppercase">Password</label>
+          <input
+            type="password"
+            placeholder="At least 6 characters"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-classic"
+          />
+        </div>
         {error && (
-          <p className="text-sm text-red-600 text-center" role="alert">
+          <p className="text-sm text-red-700 text-center" role="alert">
             {error}
           </p>
         )}
         <button
           type="submit"
           disabled={loading}
-          className="w-full text-white font-semibold tracking-wider py-3 rounded transition-opacity disabled:opacity-60"
-          style={{ backgroundColor: "#0f172a" }}
+          className="btn-navy w-full py-3 mt-2 text-sm"
         >
           {loading ? "CREATING..." : "CREATE ACCOUNT"}
         </button>
-        <p className="text-center text-sm text-neutral-600 mt-2">
+        <p className="text-center text-sm text-slate-600 mt-2">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium" style={{ color: "#0f172a" }}>
+          <Link to="/login" className="font-semibold text-red-700 hover:underline">
             Log in
           </Link>
         </p>
