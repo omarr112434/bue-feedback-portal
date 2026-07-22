@@ -17,24 +17,24 @@ export function AuthCard({
         <img
           src={BUE_LOGO_URL}
           alt="The British University in Egypt"
-          className="h-20 sm:h-24 w-auto object-contain"
+          className="h-24 md:h-32 w-auto object-contain mix-blend-multiply"
         />
-        <p className="mt-4 text-base sm:text-lg text-neutral-700 text-center">
+        <p className="mt-6 text-base sm:text-lg text-neutral-700 text-center">
           The British University in Egypt
         </p>
 
-        <div className="mt-12 w-full flex flex-col items-center">
+        <div className="mt-16 w-full flex flex-col items-center">
           <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 text-center">
             {subtitle}
           </h2>
           <h1
-            className="mt-3 text-4xl sm:text-5xl font-normal text-center"
+            className="mt-4 text-4xl sm:text-5xl font-normal text-center"
             style={{ color: "#00BCD4" }}
           >
             {title}
           </h1>
 
-          <div className="mt-6 w-full">{children}</div>
+          <div className="mt-8 w-full">{children}</div>
         </div>
       </div>
     </div>

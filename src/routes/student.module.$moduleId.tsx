@@ -167,7 +167,7 @@ function ModuleDetailsPage() {
         {/* Sidebar */}
         <aside className="lg:w-64 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto" />
+            <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto object-contain mix-blend-multiply" />
             <span className="font-bold text-neutral-900 text-sm">
               BUE Feedback Portal
             </span>

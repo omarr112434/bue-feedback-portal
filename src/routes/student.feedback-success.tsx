@@ -47,7 +47,7 @@ function FeedbackSuccess() {
         }
       `}</style>
       <div className="w-full max-w-md bg-white rounded-2xl shadow-sm p-8 sm:p-10 flex flex-col items-center text-center">
-        <img src={BUE_LOGO_URL} alt="The British University in Egypt" className="h-12 w-auto mb-8" />
+        <img src={BUE_LOGO_URL} alt="The British University in Egypt" className="h-12 w-auto object-contain mix-blend-multiply mb-8" />
 
         <div className="relative w-24 h-24 mb-6">
           <svg className="w-full h-full" viewBox="0 0 52 52">
