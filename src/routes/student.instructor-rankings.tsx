@@ -146,7 +146,7 @@ function InstructorRankingsPage() {
             </button>
           </nav>
           <div className="p-4 border-t border-neutral-200 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-[#00BCD4] text-white flex items-center justify-center font-semibold shrink-0">
+            <div className="h-10 w-10 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-semibold shrink-0">
               {displayName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
@@ -201,7 +201,7 @@ function InstructorRankingsPage() {
                     </div>
 
                     {/* Avatar */}
-                    <div className="h-12 w-12 rounded-full bg-[#00BCD4] text-white flex items-center justify-center text-lg font-bold shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-[#0f172a] text-white flex items-center justify-center text-lg font-bold shrink-0">
                       {inst.name[0]?.toUpperCase()}
                     </div>
 
@@ -237,7 +237,7 @@ function InstructorRankingsPage() {
                           className="h-full rounded-full"
                           style={{
                             width: `${(inst.avg / 5) * 100}%`,
-                            backgroundColor: "#00BCD4",
+                            backgroundColor: "#0f172a",
                           }}
                         />
                       </div>
@@ -266,7 +266,7 @@ function NavItem({
     <div
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
         active
-          ? "bg-[#00BCD4]/10 text-[#00BCD4]"
+          ? "bg-[#0f172a]/10 text-[#0f172a]"
           : "text-neutral-700 hover:bg-neutral-100"
       }`}
     >

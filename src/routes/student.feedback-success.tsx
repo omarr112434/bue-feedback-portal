@@ -83,7 +83,7 @@ function FeedbackSuccess() {
           <Link
             to="/student"
             className="flex-1 px-5 py-2.5 rounded-lg text-white font-medium text-sm text-center hover:opacity-90 transition-opacity"
-            style={{ backgroundColor: "#00BCD4" }}
+            style={{ backgroundColor: "#0f172a" }}
           >
             Back to Dashboard
           </Link>
