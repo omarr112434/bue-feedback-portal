@@ -162,7 +162,7 @@ function SubmitFeedback() {
             </button>
           </nav>
           <div className="p-4 border-t border-neutral-200 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-[#00BCD4] text-white flex items-center justify-center font-semibold shrink-0">
+            <div className="h-10 w-10 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-semibold shrink-0">
               {displayName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
@@ -197,7 +197,7 @@ function SubmitFeedback() {
               <select
                 value={moduleId}
                 onChange={(e) => setModuleId(e.target.value)}
-                className={`w-full rounded-lg border px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#00BCD4] ${
+                className={`w-full rounded-lg border px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#0f172a] ${
                   errors.moduleId ? "border-red-400" : "border-neutral-300"
                 }`}
               >
@@ -230,7 +230,7 @@ function SubmitFeedback() {
                       value={t}
                       checked={feedbackType === t}
                       onChange={(e) => setFeedbackType(e.target.value)}
-                      className="accent-[#00BCD4]"
+                      className="accent-[#0f172a]"
                     />
                     <span className="capitalize">{t}</span>
                   </label>
@@ -327,7 +327,7 @@ function SubmitFeedback() {
                 onChange={(e) => setComment(e.target.value)}
                 rows={5}
                 placeholder="Share your experience with this module..."
-                className={`w-full rounded-lg border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00BCD4] ${
+                className={`w-full rounded-lg border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f172a] ${
                   errors.comment ? "border-red-400" : "border-neutral-300"
                 }`}
               />
@@ -342,7 +342,7 @@ function SubmitFeedback() {
                 type="checkbox"
                 checked={anonymous}
                 onChange={(e) => setAnonymous(e.target.checked)}
-                className="accent-[#00BCD4] h-4 w-4"
+                className="accent-[#0f172a] h-4 w-4"
               />
               Submit Anonymously
             </label>
@@ -365,7 +365,7 @@ function SubmitFeedback() {
                 type="submit"
                 disabled={submitting}
                 className="px-5 py-2.5 rounded-lg text-white font-medium text-sm disabled:opacity-60"
-                style={{ backgroundColor: "#00BCD4" }}
+                style={{ backgroundColor: "#0f172a" }}
               >
                 {submitting ? "Submitting..." : "Submit Feedback"}
               </button>
@@ -390,7 +390,7 @@ function NavItem({
     <div
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
         active
-          ? "bg-[#00BCD4]/10 text-[#00BCD4]"
+          ? "bg-[#0f172a]/10 text-[#0f172a]"
           : "text-neutral-700 hover:bg-neutral-100"
       }`}
     >

@@ -157,7 +157,7 @@ function MyFeedbackPage() {
             </button>
           </nav>
           <div className="p-4 border-t border-neutral-200 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-[#00BCD4] text-white flex items-center justify-center font-semibold shrink-0">
+            <div className="h-10 w-10 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-semibold shrink-0">
               {displayName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
@@ -253,7 +253,7 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
     <button
       onClick={onClick}
       className={`px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
-        active ? "border-[#00BCD4] text-[#00BCD4]" : "border-transparent text-neutral-600 hover:text-neutral-900"
+        active ? "border-[#0f172a] text-[#0f172a]" : "border-transparent text-neutral-600 hover:text-neutral-900"
       }`}
     >
       {children}
@@ -265,7 +265,7 @@ function NavItem({ icon, label, active }: { icon: React.ReactNode; label: string
   return (
     <div
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
-        active ? "bg-[#00BCD4]/10 text-[#00BCD4]" : "text-neutral-700 hover:bg-neutral-100"
+        active ? "bg-[#0f172a]/10 text-[#0f172a]" : "text-neutral-700 hover:bg-neutral-100"
       }`}
     >
       {icon}

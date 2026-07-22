@@ -163,7 +163,7 @@ function StudentDashboard() {
             </button>
           </nav>
           <div className="p-4 border-t border-neutral-200 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-[#00BCD4] text-white flex items-center justify-center font-semibold shrink-0">
+            <div className="h-10 w-10 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-semibold shrink-0">
               {displayName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
@@ -186,7 +186,7 @@ function StudentDashboard() {
               <Link
                 to="/student/feedback"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium text-sm shrink-0"
-                style={{ backgroundColor: "#00BCD4" }}
+                style={{ backgroundColor: "#0f172a" }}
               >
                 <Plus size={16} /> Submit Feedback
               </Link>
@@ -207,7 +207,7 @@ function StudentDashboard() {
           {/* Profile */}
           <div className="mt-6 border border-neutral-200 rounded-xl p-5">
             <div className="flex items-center gap-4">
-              <div className="h-14 w-14 rounded-full bg-[#00BCD4] text-white flex items-center justify-center text-xl font-bold shrink-0">
+              <div className="h-14 w-14 rounded-full bg-[#0f172a] text-white flex items-center justify-center text-xl font-bold shrink-0">
                 {displayName[0]?.toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">
@@ -229,7 +229,7 @@ function StudentDashboard() {
                   className="h-full rounded-full"
                   style={{
                     width: `${Math.min(100, stats.thisMonth * 20)}%`,
-                    backgroundColor: "#00BCD4",
+                    backgroundColor: "#0f172a",
                   }}
                 />
               </div>
@@ -263,7 +263,7 @@ function StudentDashboard() {
                     </div>
                     <button
                       className="text-sm font-medium shrink-0"
-                      style={{ color: "#00BCD4" }}
+                      style={{ color: "#0f172a" }}
                     >
                       View details →
                     </button>
@@ -321,7 +321,7 @@ function NavItem({
   return (
     <div
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
-        active ? "bg-[#00BCD4]/10 text-[#00BCD4]" : "text-neutral-700 hover:bg-neutral-100"
+        active ? "bg-[#0f172a]/10 text-[#0f172a]" : "text-neutral-700 hover:bg-neutral-100"
       }`}
     >
       {icon}

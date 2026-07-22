@@ -60,14 +60,14 @@ function RegisterPage() {
           placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-neutral-300 rounded px-3 py-3 text-sm outline-none focus:border-[#00BCD4] placeholder:text-neutral-400"
+          className="w-full border border-neutral-300 rounded px-3 py-3 text-sm outline-none focus:border-[#0f172a] placeholder:text-neutral-400"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-neutral-300 rounded px-3 py-3 text-sm outline-none focus:border-[#00BCD4] placeholder:text-neutral-400"
+          className="w-full border border-neutral-300 rounded px-3 py-3 text-sm outline-none focus:border-[#0f172a] placeholder:text-neutral-400"
         />
         {error && (
           <p className="text-sm text-red-600 text-center" role="alert">
@@ -78,13 +78,13 @@ function RegisterPage() {
           type="submit"
           disabled={loading}
           className="w-full text-white font-semibold tracking-wider py-3 rounded transition-opacity disabled:opacity-60"
-          style={{ backgroundColor: "#00BCD4" }}
+          style={{ backgroundColor: "#0f172a" }}
         >
           {loading ? "CREATING..." : "CREATE ACCOUNT"}
         </button>
         <p className="text-center text-sm text-neutral-600 mt-2">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium" style={{ color: "#00BCD4" }}>
+          <Link to="/login" className="font-medium" style={{ color: "#0f172a" }}>
             Log in
           </Link>
         </p>

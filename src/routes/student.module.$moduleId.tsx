@@ -198,7 +198,7 @@ function ModuleDetailsPage() {
             </button>
           </nav>
           <div className="p-4 border-t border-neutral-200 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-[#00BCD4] text-white flex items-center justify-center font-semibold shrink-0">
+            <div className="h-10 w-10 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-semibold shrink-0">
               {displayName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
@@ -221,7 +221,7 @@ function ModuleDetailsPage() {
               {/* Header */}
               <header className="mb-6">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <BookOpen size={28} style={{ color: "#00BCD4" }} />
+                  <BookOpen size={28} style={{ color: "#0f172a" }} />
                   <h1 className="text-2xl font-bold text-neutral-900">
                     {module_.module_name}
                   </h1>
@@ -243,7 +243,7 @@ function ModuleDetailsPage() {
                     Instructor
                   </h2>
                   <div className="flex items-center gap-4">
-                    <div className="h-14 w-14 rounded-full bg-[#00BCD4] text-white flex items-center justify-center text-xl font-bold shrink-0">
+                    <div className="h-14 w-14 rounded-full bg-[#0f172a] text-white flex items-center justify-center text-xl font-bold shrink-0">
                       {instructor.name[0]?.toUpperCase()}
                     </div>
                     <div className="min-w-0">
@@ -286,7 +286,7 @@ function ModuleDetailsPage() {
               {coursework.length > 0 && (
                 <section className="border border-neutral-200 rounded-xl p-5 mb-6">
                   <h2 className="text-lg font-bold text-neutral-900 mb-4 flex items-center gap-2">
-                    <Award size={20} style={{ color: "#00BCD4" }} />
+                    <Award size={20} style={{ color: "#0f172a" }} />
                     Coursework
                   </h2>
                   <div className="overflow-x-auto">
@@ -327,7 +327,7 @@ function ModuleDetailsPage() {
                                     className="h-full rounded-full"
                                     style={{
                                       width: `${cw.weight ?? 0}%`,
-                                      backgroundColor: "#00BCD4",
+                                      backgroundColor: "#0f172a",
                                     }}
                                   />
                                 </div>
@@ -395,7 +395,7 @@ function ModuleDetailsPage() {
               <Link
                 to="/student/feedback"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-medium text-sm"
-                style={{ backgroundColor: "#00BCD4" }}
+                style={{ backgroundColor: "#0f172a" }}
               >
                 <PencilLine size={16} />
                 Submit Feedback
@@ -421,7 +421,7 @@ function NavItem({
     <div
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
         active
-          ? "bg-[#00BCD4]/10 text-[#00BCD4]"
+          ? "bg-[#0f172a]/10 text-[#0f172a]"
           : "text-neutral-700 hover:bg-neutral-100"
       }`}
     >
