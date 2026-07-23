@@ -185,7 +185,7 @@ function InstructorRankingsPage() {
                     key={inst.id}
                     className={`border rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${
                       rank <= 3
-                        ? "border-yellow-200 bg-yellow-50/40"
+                        ? "border-red-100 bg-red-50/30"
                         : "border-neutral-200"
                     }`}
                   >
