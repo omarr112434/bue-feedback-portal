@@ -106,13 +106,13 @@ function InstructorRankingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-100 p-2 sm:p-4">
+    <div className="min-h-screen bg-slate-100 p-2 sm:p-4">
       <div className="mx-auto max-w-[1400px] bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row min-h-[calc(100vh-2rem)]">
         {/* Sidebar */}
-        <aside className="lg:w-64 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col">
+        <aside className="lg:w-64 bg-slate-900 border-b lg:border-b-0 lg:border-r border-slate-800 flex flex-col">
           <div className="p-6 flex items-center gap-2">
             <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto object-contain mix-blend-multiply" />
-            <span className="font-bold text-neutral-900 text-sm">
+            <span className="font-bold text-white text-sm">
               BUE Feedback Portal
             </span>
           </div>
@@ -139,21 +139,21 @@ function InstructorRankingsPage() {
               </Link>
             )}
             <button onClick={signOut} className="w-full text-left">
-              <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium">
+              <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-300 hover:bg-slate-800 text-sm font-medium">
                 <LogOut size={18} />
                 Log out
               </div>
             </button>
           </nav>
-          <div className="p-4 border-t border-neutral-200 flex items-center gap-3">
+          <div className="p-4 border-t border-slate-800 flex items-center gap-3">
             <div className="h-10 w-10 rounded-full bg-[#0f172a] text-white flex items-center justify-center font-semibold shrink-0">
               {displayName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-neutral-900 truncate capitalize">
+              <p className="text-sm font-semibold text-white truncate capitalize">
                 {displayName}
               </p>
-              <p className="text-xs text-neutral-500 truncate">{user?.email}</p>
+              <p className="text-xs text-slate-400 truncate">{user?.email}</p>
             </div>
           </div>
         </aside>
@@ -185,7 +185,7 @@ function InstructorRankingsPage() {
                     key={inst.id}
                     className={`border rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${
                       rank <= 3
-                        ? "border-yellow-200 bg-yellow-50/40"
+                        ? "border-red-100 bg-red-50/30"
                         : "border-neutral-200"
                     }`}
                   >
@@ -266,8 +266,8 @@ function NavItem({
     <div
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${
         active
-          ? "bg-[#0f172a]/10 text-[#0f172a]"
-          : "text-neutral-700 hover:bg-neutral-100"
+          ? "bg-red-700 text-white"
+          : "text-slate-200 hover:bg-slate-800"
       }`}
     >
       {icon}

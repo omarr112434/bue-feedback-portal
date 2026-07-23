@@ -25,7 +25,7 @@ export function AuthCard({
         <img
           src={BUE_LOGO_URL}
           alt="The British University in Egypt"
-          className="h-20 md:h-24 w-auto object-contain drop-shadow-lg"
+          className="h-32 md:h-40 w-auto object-contain drop-shadow-lg"
         />
 
         <div className="mt-6 w-full card-premium px-8 py-10 sm:px-10">
