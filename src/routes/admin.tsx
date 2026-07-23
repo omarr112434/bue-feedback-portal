@@ -455,9 +455,9 @@ function NavItem({
   );
 }
 
-function StatCard({ label, value, bg }: { label: string; value: string; bg: string }) {
+function StatCard({ label, value, bg: _bg }: { label: string; value: string; bg?: string }) {
   return (
-    <div className={`${bg} rounded-xl p-5`}>
+    <div className="card-premium p-5">
       <p className="text-2xl font-bold text-neutral-900">{value}</p>
       <p className="text-sm text-neutral-700 mt-1">{label}</p>
     </div>
