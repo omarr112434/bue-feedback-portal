@@ -197,9 +197,7 @@ function SubmitFeedback() {
               <select
                 value={moduleId}
                 onChange={(e) => setModuleId(e.target.value)}
-                className={`w-full rounded-lg border px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#0f172a] ${
-                  errors.moduleId ? "border-red-400" : "border-neutral-300"
-                }`}
+                className={`input-classic ${errors.moduleId ? "!border-red-400" : ""}`}
               >
                 <option value="">-- Choose a module --</option>
                 {modules.map((m) => (
