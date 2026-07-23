@@ -325,9 +325,7 @@ function SubmitFeedback() {
                 onChange={(e) => setComment(e.target.value)}
                 rows={5}
                 placeholder="Share your experience with this module..."
-                className={`w-full rounded-lg border px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f172a] ${
-                  errors.comment ? "border-red-400" : "border-neutral-300"
-                }`}
+                className={`input-classic ${errors.comment ? "!border-red-400" : ""}`}
               />
               {errors.comment && (
                 <p className="mt-1 text-xs text-red-600">{errors.comment}</p>
