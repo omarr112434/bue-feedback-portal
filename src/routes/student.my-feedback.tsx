@@ -137,7 +137,9 @@ function MyFeedbackPage() {
       <div className="mx-auto max-w-[1400px] bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col lg:flex-row min-h-[calc(100vh-2rem)]">
         <aside className="lg:w-64 bg-slate-900 border-b lg:border-b-0 lg:border-r border-slate-800 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto object-contain mix-blend-multiply" />
+            <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-center">
+              <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto object-contain" />
+            </div>
             <span className="font-bold text-white text-sm">BUE Feedback Portal</span>
           </div>
           <nav className="flex-1 px-3 space-y-1">
