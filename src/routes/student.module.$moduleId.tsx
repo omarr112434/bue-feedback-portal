@@ -167,9 +167,7 @@ function ModuleDetailsPage() {
         {/* Sidebar */}
         <aside className="lg:w-64 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-center">
-              <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto object-contain" />
-            </div>
+            <img src={BUE_LOGO_URL} alt="BUE" className="h-10 w-auto object-contain" style={{ filter: "drop-shadow(0px 0px 4px rgba(255,255,255,0.85))" }} />
             <span className="font-bold text-neutral-900 text-sm">
               BUE Feedback Portal
             </span>

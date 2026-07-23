@@ -136,9 +136,7 @@ function StudentDashboard() {
         {/* Sidebar */}
         <aside className="lg:w-64 bg-slate-900 border-b lg:border-b-0 lg:border-r border-slate-800 flex flex-col">
           <div className="p-6 flex items-center gap-2">
-            <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-center">
-              <img src={BUE_LOGO_URL} alt="BUE" className="h-8 w-auto object-contain" />
-            </div>
+            <img src={BUE_LOGO_URL} alt="BUE" className="h-10 w-auto object-contain" style={{ filter: "drop-shadow(0px 0px 4px rgba(255,255,255,0.85))" }} />
             <span className="font-bold text-white text-sm">BUE Feedback Portal</span>
           </div>
           <nav className="flex-1 px-3 space-y-1">
