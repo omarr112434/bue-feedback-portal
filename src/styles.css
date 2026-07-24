@@ -156,7 +156,7 @@
 
 @utility card-premium {
   background-color: #ffffff;
-  border-top: 4px solid var(--secondary);
+  border-top: 4px solid #C8102E;
   border-radius: 0.75rem;
   box-shadow: 0 20px 40px -20px rgb(15 23 42 / 0.25), 0 8px 16px -8px rgb(15 23 42 / 0.1);
 }
