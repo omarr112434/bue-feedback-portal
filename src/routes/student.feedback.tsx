@@ -216,23 +216,38 @@ function SubmitFeedback() {
               <label className="block text-sm font-semibold text-neutral-900 mb-2">
                 Feedback Type <span className="text-red-500">*</span>
               </label>
-              <div className="flex flex-wrap gap-4">
-                {["module", "instructor", "general"].map((t) => (
-                  <label
-                    key={t}
-                    className="inline-flex items-center gap-2 cursor-pointer text-sm text-neutral-700"
-                  >
-                    <input
-                      type="radio"
-                      name="feedback_type"
-                      value={t}
-                      checked={feedbackType === t}
-                      onChange={(e) => setFeedbackType(e.target.value)}
-                      className="accent-[#0f172a]"
-                    />
-                    <span className="capitalize">{t}</span>
-                  </label>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {[
+                  { value: "module_general", label: "Module General" },
+                  { value: "instructor", label: "Instructor" },
+                  { value: "lab_test", label: "Lab Test" },
+                  { value: "class_test", label: "Class Test" },
+                  { value: "midterm_exam", label: "Midterm Exam" },
+                  { value: "final_exam", label: "Final Exam" },
+                  { value: "coursework_material", label: "Coursework Material" },
+                ].map((t) => {
+                  const active = feedbackType === t.value;
+                  return (
+                    <label
+                      key={t.value}
+                      className={`flex items-center gap-2 cursor-pointer text-sm rounded-lg border px-3 py-2.5 transition ${
+                        active
+                          ? "border-[#0f172a] bg-slate-50 text-neutral-900 shadow-sm"
+                          : "border-neutral-300 text-neutral-700 hover:border-neutral-400"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="feedback_type"
+                        value={t.value}
+                        checked={active}
+                        onChange={(e) => setFeedbackType(e.target.value)}
+                        className="accent-[#0f172a]"
+                      />
+                      <span>{t.label}</span>
+                    </label>
+                  );
+                })}
               </div>
               {errors.feedbackType && (
                 <p className="mt-1 text-xs text-red-600">
