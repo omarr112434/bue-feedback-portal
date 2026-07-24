@@ -23,6 +23,22 @@ export const Route = createFileRoute("/student/feedback")({
 type ModuleRow = { id: string; module_name: string; category: string };
 type InstructorInfo = { name: string; title: string } | null;
 
+const baseFeedbackTypes = [
+  { value: "module", label: "Module" },
+  { value: "instructor", label: "Instructor" },
+  { value: "general", label: "General" },
+];
+
+const assessmentFeedbackTypes = [
+  { value: "lab_test", label: "Lab Test" },
+  { value: "class_test", label: "Class Test" },
+  { value: "midterm_exam", label: "Midterm Exam" },
+  { value: "final_exam", label: "Final Exam" },
+  { value: "coursework_material", label: "Coursework Material" },
+];
+
+const databaseFeedbackTypes = new Set(["module", "instructor", "general"]);
+
 function SubmitFeedback() {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ id: string; email: string | null } | null>(
@@ -99,12 +115,19 @@ function SubmitFeedback() {
     if (Object.keys(errs).length > 0 || !user) return;
 
     setSubmitting(true);
+    const safeFeedbackType = databaseFeedbackTypes.has(feedbackType)
+      ? feedbackType
+      : "module";
+    const savedComment = selectedAssessment
+      ? `[${selectedAssessment.label}] - ${comment.trim()}`
+      : comment.trim();
+
     const { error } = await supabase.from("feedback").insert({
       user_id: user.id,
       module_id: moduleId,
-      feedback_type: feedbackType,
+      feedback_type: safeFeedbackType,
       rating,
-      comment: comment.trim(),
+      comment: savedComment,
       is_anonymous: anonymous,
     });
     setSubmitting(false);
@@ -116,6 +139,12 @@ function SubmitFeedback() {
   }
 
   const displayName = user?.email?.split("@")[0] ?? "Student";
+  const feedbackTypeOptions = moduleId
+    ? [...baseFeedbackTypes, ...assessmentFeedbackTypes]
+    : baseFeedbackTypes;
+  const selectedAssessment = assessmentFeedbackTypes.find(
+    (type) => type.value === feedbackType,
+  );
 
   return (
     <div className="min-h-screen bg-slate-100 p-2 sm:p-4">
@@ -217,15 +246,7 @@ function SubmitFeedback() {
                 Feedback Type <span className="text-red-500">*</span>
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {[
-                  { value: "module_general", label: "Module General" },
-                  { value: "instructor", label: "Instructor" },
-                  { value: "lab_test", label: "Lab Test" },
-                  { value: "class_test", label: "Class Test" },
-                  { value: "midterm_exam", label: "Midterm Exam" },
-                  { value: "final_exam", label: "Final Exam" },
-                  { value: "coursework_material", label: "Coursework Material" },
-                ].map((t) => {
+                {feedbackTypeOptions.map((t) => {
                   const active = feedbackType === t.value;
                   return (
                     <label
