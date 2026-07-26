@@ -216,7 +216,7 @@ function SubmitFeedback() {
 
           <form
             onSubmit={handleSubmit}
-            className="max-w-2xl card-premium border-0 p-5 sm:p-8 space-y-6"
+            className="max-w-2xl card-premium p-5 sm:p-8 space-y-6"
           >
             {/* Module */}
             <div>

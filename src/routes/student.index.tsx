@@ -205,7 +205,7 @@ function StudentDashboard() {
           </div>
 
           {/* Profile */}
-          <div className="mt-6 card-premium border-0 p-5">
+          <div className="mt-6 card-premium p-5">
             <div className="flex items-center gap-4">
               <div className="h-14 w-14 rounded-full bg-[#0f172a] text-white flex items-center justify-center text-xl font-bold shrink-0">
                 {displayName[0]?.toUpperCase()}
@@ -237,7 +237,7 @@ function StudentDashboard() {
           </div>
 
           {/* My Recent Feedback */}
-          <section id="my-feedback" className="mt-6 card-premium border-0 p-5">
+          <section id="my-feedback" className="mt-6 card-premium p-5">
             <h2 className="text-lg font-bold text-neutral-900 mb-4">My Recent Feedback</h2>
             {loading ? (
               <p className="text-sm text-neutral-500">Loading…</p>
@@ -274,7 +274,7 @@ function StudentDashboard() {
           </section>
 
           {/* Module Leaderboard */}
-          <section className="mt-6 card-premium border-0 p-5">
+          <section className="mt-6 card-premium p-5">
             <h2 className="text-lg font-bold text-neutral-900 mb-4">🏆 Top Rated Modules</h2>
             {leaderboard.length === 0 ? (
               <p className="text-sm text-neutral-500">No ratings yet.</p>

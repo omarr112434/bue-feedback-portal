@@ -189,7 +189,7 @@ function MyFeedbackPage() {
                   ? "Anonymous Student"
                   : p?.full_name || p?.email?.split("@")[0] || "Student";
                 return (
-                  <article key={f.id} className="card-premium border-0 p-5">
+                  <article key={f.id} className="card-premium p-5">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
                       <div>
                         <p className="font-semibold text-neutral-900">
